@@ -1,0 +1,7 @@
+C:\Users\vkobr\OneDrive\Робочий стіл\CPP\CS\CS\bin\Debug\CS.exe.config
+C:\Users\vkobr\OneDrive\Робочий стіл\CPP\CS\CS\bin\Debug\CS.exe
+C:\Users\vkobr\OneDrive\Робочий стіл\CPP\CS\CS\bin\Debug\CS.pdb
+C:\Users\vkobr\OneDrive\Робочий стіл\CPP\CS\CS\obj\Debug\CS.csproj.AssemblyReference.cache
+C:\Users\vkobr\OneDrive\Робочий стіл\CPP\CS\CS\obj\Debug\CS.csproj.CoreCompileInputs.cache
+C:\Users\vkobr\OneDrive\Робочий стіл\CPP\CS\CS\obj\Debug\CS.exe
+C:\Users\vkobr\OneDrive\Робочий стіл\CPP\CS\CS\obj\Debug\CS.pdb
