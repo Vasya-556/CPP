@@ -18,5 +18,35 @@
     "Publish": "svitanok",
     "Genre": "psychologi",
     "Date": "2020-15-12"
+  },
+  {
+    "ISBN": "1234",
+    "Name": "1234",
+    "Authors": [
+      "1234"
+    ],
+    "Publish": "1234",
+    "Genre": "1234",
+    "Date": "12-12-1212"
+  },
+  {
+    "ISBN": "1234",
+    "Name": "1234",
+    "Authors": [
+      "1"
+    ],
+    "Publish": "1234",
+    "Genre": "1234",
+    "Date": "12-12-2022"
+  },
+  {
+    "ISBN": "129391919191",
+    "Name": "123",
+    "Authors": [
+      "Й. Й."
+    ],
+    "Publish": "123",
+    "Genre": "123",
+    "Date": "31-12-2022"
   }
 ]

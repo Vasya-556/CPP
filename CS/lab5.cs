@@ -1,14 +1,14 @@
-﻿using CS;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Text.Json;
+using System.Text.RegularExpressions;
 using System.Text.Unicode;
 using System.Threading.Tasks;
 
-namespace CSS
+namespace CSSS
 {
     public class Book
     {
@@ -23,6 +23,21 @@ namespace CSS
         {
             Authors.Add(Author);
         }
+        public bool HasSpecificAuthor()
+        {
+            return Authors.Contains("Й. Й.");
+        }
+        public bool HasSpecificISBN()
+        {
+            string pattern = @".9\d9\d9.";
+            return Regex.IsMatch(ISBN, pattern);
+        }
+        public bool HasSpecificYear()
+        {
+            int currentYear = DateTime.Now.Year;
+            string pattern = $@"^\d{{2}}-\d{{2}}-{currentYear - 4}|\d{{2}}-\d{{2}}-{currentYear - 3}|\d{{2}}-\d{{2}}-{currentYear - 2}|\d{{2}}-\d{{2}}-{currentYear - 1}|\d{{2}}-\d{{2}}-{currentYear}$";
+            return Regex.IsMatch(Date, pattern);
+        }
 
         public override string ToString()
         {
@@ -36,8 +51,7 @@ namespace CSS
             this.RemoveAll(predicate);
         }
     }
-
-    internal class lab4
+    internal class lab5
     {
         private static MyLinkedList<Book> books = new MyLinkedList<Book>();
         private const string FileName = "books.json";
@@ -51,6 +65,7 @@ namespace CSS
                 Console.WriteLine("1. Add a new book");
                 Console.WriteLine("2. View list of books");
                 Console.WriteLine("3. Delete book by name");
+                Console.WriteLine("4. Find specific book");
                 Console.WriteLine("0. Exit program");
                 Console.Write("Select an option: ");
 
@@ -77,6 +92,10 @@ namespace CSS
                         string Name = Console.ReadLine();
                         books.RemoveIf(s => s.Name.Equals(Name, StringComparison.OrdinalIgnoreCase));
                         Console.WriteLine($"Book {Name} was deleted.");
+                        break;
+
+                    case 4:
+                        DisplaySpecificBook();
                         break;
 
                     default:
@@ -121,8 +140,18 @@ namespace CSS
             Console.Write("Genre: ");
             var genre = Console.ReadLine();
 
-            Console.Write("Date: ");
-            var date = Console.ReadLine();
+            string date;
+
+            while (true)
+            {
+                Console.Write("Date(DD-MM-YYYY): ");
+                date = Console.ReadLine();
+                string pattern = @"^(0[1-9]|[12][0-9]|3[01])-(0[1-9]|1[0-2])-\d{4}$";
+                if (Regex.IsMatch(date, pattern))
+                    break;
+                else
+                    Console.WriteLine("Wrong data format");
+            }
 
             var book = new Book
             {
@@ -153,6 +182,17 @@ namespace CSS
             foreach (var book in books)
             {
                 Console.WriteLine(book);
+            }
+        }
+
+        private static void DisplaySpecificBook()
+        {
+            foreach (Book book in books)
+            {
+                if (book.HasSpecificAuthor() && book.HasSpecificISBN() && book.HasSpecificYear())
+                {
+                    Console.WriteLine(book);
+                }
             }
         }
         private static void SaveBooks()
