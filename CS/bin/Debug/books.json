@@ -1,1 +1,22 @@
-[]
+﻿[
+  {
+    "ISBN": "2983452345",
+    "Name": "travel",
+    "Authors": [
+      "John Smith"
+    ],
+    "Publish": "svitanok",
+    "Genre": "adventure",
+    "Date": "2022-12-22"
+  },
+  {
+    "ISBN": "12312312",
+    "Name": "metamorphose",
+    "Authors": [
+      "Kafka"
+    ],
+    "Publish": "svitanok",
+    "Genre": "psychologi",
+    "Date": "2020-15-12"
+  }
+]
