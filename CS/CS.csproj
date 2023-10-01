@@ -91,6 +91,7 @@
     <Compile Include="lab3.cs" />
     <Compile Include="lab4.cs" />
     <Compile Include="lab5.cs" />
+    <Compile Include="lab6.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -8,7 +8,7 @@ using System.Text.RegularExpressions;
 using System.Text.Unicode;
 using System.Threading.Tasks;
 
-namespace CSSS
+namespace CSSSS
 {
     public class Book
     {
@@ -44,6 +44,7 @@ namespace CSSS
             return $"Book \nISBN: '{ISBN}',Name: '{Name}', Authors: '{string.Join(", ", Authors)}',Publish: '{Publish}', Genre: '{Genre}', Date:'{Date}'";
         }
     }
+
     public class MyLinkedList<T> : List<T>
     {
         public void RemoveIf(Predicate<T> predicate)
@@ -51,13 +52,32 @@ namespace CSSS
             this.RemoveAll(predicate);
         }
     }
-    internal class lab5
+
+    internal class lab6
     {
         private static MyLinkedList<Book> books = new MyLinkedList<Book>();
         private const string FileName = "books.json";
+
         static void Main(string[] args)
         {
             LoadBooks();
+
+            if (args.Length > 0 && args[0].Equals("-auto", StringComparison.OrdinalIgnoreCase))
+            {
+                books.Add(new Book
+                {
+                    ISBN = "00000",
+                    Name = "Auto",
+                    Authors = new List<string> { "Auto" },
+                    Publish = "Auto",
+                    Genre = "Auto",
+                    Date = "22-12-2022"
+                });
+                Display();
+                SaveBooks();
+                Console.WriteLine("Program terminated.");
+                return;
+            }
 
             while (true)
             {
@@ -66,6 +86,11 @@ namespace CSSS
                 Console.WriteLine("2. View list of books");
                 Console.WriteLine("3. Delete book by name");
                 Console.WriteLine("4. Find specific book");
+                Console.WriteLine("5. Search book by keyword");
+                Console.WriteLine("6. Sort by name");
+                Console.WriteLine("7. Sort by publish");
+                Console.WriteLine("8. Sort by genre");
+                Console.WriteLine("9. Sort by date");
                 Console.WriteLine("0. Exit program");
                 Console.Write("Select an option: ");
 
@@ -96,6 +121,26 @@ namespace CSSS
 
                     case 4:
                         DisplaySpecificBook();
+                        break;
+
+                    case 5:
+                        SearchBook();
+                        break;
+
+                    case 6:
+                        SortByName();
+                        break;
+                    
+                    case 7:
+                        SortByPublish();
+                        break;
+
+                    case 8:
+                        SortByGenre();
+                        break;
+
+                    case 9:
+                        SortByDate();
                         break;
 
                     default:
@@ -199,6 +244,39 @@ namespace CSSS
         {
             var json = JsonSerializer.Serialize(books, new JsonSerializerOptions { WriteIndented = true, Encoder = System.Text.Encodings.Web.JavaScriptEncoder.Create(UnicodeRanges.All) });
             File.WriteAllText(FileName, json, Encoding.UTF8);
+        }
+        private static void SearchBook()
+        {
+            Console.Write("Enter keyword to search: ");
+            var word = Console.ReadLine().ToLower();
+
+            var filtered = books.Where(book => book.ISBN.ToLower().Contains(word)
+                                                || book.Name.ToLower().Contains(word)
+                                                || string.Join(", ", book.Authors).ToLower().Contains(word)
+                                                || book.Publish.ToLower().Contains(word)
+                                                || book.Genre.ToLower().Contains(word)
+                                                || book.Date.ToLower().Contains(word));
+
+            foreach (var book in filtered)
+            {
+                Console.WriteLine(book);
+            }
+        }
+        private static void SortByName()
+        {
+            books.Sort((book1, book2) => book1.Name.CompareTo(book2.Name));
+        }
+        private static void SortByPublish()
+        {
+            books.Sort((book1, book2) => book1.Publish.CompareTo(book2.Publish));
+        }
+        private static void SortByGenre()
+        {
+            books.Sort((book1, book2) => book1.Genre.CompareTo(book2.Genre));
+        }
+        private static void SortByDate()
+        {
+            books.Sort((book1, book2) => book1.Date.CompareTo(book2.Date));
         }
     }
 }

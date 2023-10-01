@@ -1,23 +1,21 @@
 ﻿[
   {
-    "ISBN": "2983452345",
-    "Name": "travel",
-    "Authors": [
-      "John Smith"
-    ],
-    "Publish": "svitanok",
-    "Genre": "adventure",
-    "Date": "2022-12-22"
+    "ISBN": "123",
+    "Name": "123",
+    "Authors": [],
+    "Publish": "123",
+    "Genre": "123",
+    "Date": "123"
   },
   {
-    "ISBN": "12312312",
-    "Name": "metamorphose",
+    "ISBN": "129391919191",
+    "Name": "123",
     "Authors": [
-      "Kafka"
+      "Й. Й."
     ],
-    "Publish": "svitanok",
-    "Genre": "psychologi",
-    "Date": "2020-15-12"
+    "Publish": "123",
+    "Genre": "123",
+    "Date": "31-12-2022"
   },
   {
     "ISBN": "1234",
@@ -40,13 +38,33 @@
     "Date": "12-12-2022"
   },
   {
-    "ISBN": "129391919191",
-    "Name": "123",
+    "ISBN": "2983452345",
+    "Name": "travel",
     "Authors": [
-      "Й. Й."
+      "John Smith"
     ],
-    "Publish": "123",
-    "Genre": "123",
-    "Date": "31-12-2022"
+    "Publish": "svitanok",
+    "Genre": "adventure",
+    "Date": "2022-12-22"
+  },
+  {
+    "ISBN": "12312312",
+    "Name": "metamorphose",
+    "Authors": [
+      "Kafka"
+    ],
+    "Publish": "svitanok",
+    "Genre": "psychologi",
+    "Date": "2020-15-12"
+  },
+  {
+    "ISBN": "00000",
+    "Name": "Auto",
+    "Authors": [
+      "Auto"
+    ],
+    "Publish": "Auto",
+    "Genre": "Auto",
+    "Date": "22-12-2022"
   }
 ]
