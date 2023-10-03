@@ -1,15 +1,31 @@
-import java.io.Serializable;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.io.*;
-import java.util.*;
+import java.util.Scanner;
+import java.util.function.Predicate;
 
-public class lab3 {
-    private static List<Book3> books = new ArrayList<>();
+public class lab4 {
+    private static List<Book4> books = new ArrayList<>();
     private static final String fileName = "books.json";
-
     public static void main(String[] args) {
         LoadBooks();
+
+        if (args.length > 0 && args[0].equalsIgnoreCase("-auto")) {
+            Book4 autoBook = new Book4(
+                    "00000",
+                    "Auto",
+                    "Auto",
+                    "Auto",
+                    "22-12-2022"
+            );
+            autoBook.AddAuthor("Auto");
+
+            books.add(autoBook);
+            Display();
+            SaveBooks();
+            System.out.println("Program terminated.");
+            return;
+        }
 
         while (true) {
             System.out.println("Menu:");
@@ -39,9 +55,9 @@ public class lab3 {
 
                 case 3:
                     System.out.print("Enter the book name to delete: ");
-                    scanner.nextLine(); // Consume the newline character
+                    scanner.nextLine();
                     String name = scanner.nextLine();
-                    RemoveBookByName(name);
+                    books.removeIf(book -> book.getName().equalsIgnoreCase(name));
                     System.out.println("Book " + name + " was deleted.");
                     break;
 
@@ -51,7 +67,6 @@ public class lab3 {
             }
         }
     }
-
     private static void AddBook() {
         System.out.println();
 
@@ -72,7 +87,7 @@ public class lab3 {
         System.out.print("Date: ");
         String date = scanner.nextLine();
 
-        Book3 book = new Book3(isbn, name, publish, genre, date);
+        Book4 book = new Book4(isbn, name, publish, genre, date);
 
         while (true) {
             System.out.print("Add author (Y/N): ");
@@ -91,26 +106,14 @@ public class lab3 {
     }
 
     private static void Display() {
-        for (Book3 book : books) {
+        for (Book4 book : books) {
             System.out.println(book);
         }
     }
 
     private static void SaveBooks() {
-        try {
-            FileWriter fileWriter = new FileWriter(fileName);
-            PrintWriter printWriter = new PrintWriter(fileWriter);
-
-            for (Book3 book : books) {
-                printWriter.println(book.getISBN());
-                printWriter.println(book.getName());
-                printWriter.println(String.join(",", book.getAuthors()));
-                printWriter.println(book.getPublish());
-                printWriter.println(book.getGenre());
-                printWriter.println(book.getDate());
-            }
-
-            printWriter.close();
+        try (ObjectOutputStream outputStream = new ObjectOutputStream(new FileOutputStream(fileName))) {
+            outputStream.writeObject(books);
             System.out.println("Data saved successfully to books.json");
         } catch (IOException e) {
             System.err.println("Error saving data to books.json: " + e.getMessage());
@@ -118,39 +121,27 @@ public class lab3 {
     }
 
     private static void LoadBooks() {
-        try {
-            File file = new File(fileName);
-            if (file.exists()) {
-                Scanner scanner = new Scanner(file);
-                while (scanner.hasNext()) {
-                    String ISBN = scanner.nextLine();
-                    String Name = scanner.nextLine();
-                    String authors = scanner.nextLine();
-                    String Publish = scanner.nextLine();
-                    String Genre = scanner.nextLine();
-                    String Date = scanner.nextLine();
-
-                    Book3 book = new Book3(ISBN, Name, Publish, Genre, Date);
-                    book.AddAuthor(authors);
-                    books.add(book);
-                }
-                scanner.close();
+        try (ObjectInputStream inputStream = new ObjectInputStream(new FileInputStream(fileName))) {
+            Object obj = inputStream.readObject();
+            if (obj instanceof List<?>) {
+                books = (List<Book4>) obj;
                 System.out.println("Data loaded successfully from books.json");
             } else {
-                System.out.println("books.json not found. Starting with an empty list.");
+                System.out.println("books.json does not contain a valid list of books. Starting with an empty list.");
             }
-        } catch (FileNotFoundException e) {
+        } catch (IOException | ClassNotFoundException e) {
             System.err.println("Error loading data from books.json: " + e.getMessage() + ". Starting with an empty list.");
         }
     }
-
-    private static void RemoveBookByName(String name) {
-        books.removeIf(book -> book.getName().equalsIgnoreCase(name));
-    }
-
 }
 
-class Book3 implements Serializable {
+class MyLinkedList<T> extends ArrayList<T> {
+    public void RemoveIf(Predicate<T> predicate) {
+        removeIf(predicate);
+    }
+}
+
+class Book4 implements Serializable {
     private String ISBN;
     private String Name;
     private List<String> Authors;
@@ -158,7 +149,7 @@ class Book3 implements Serializable {
     private String Genre;
     private String Date;
 
-    public Book3(String ISBN, String Name, String Publish, String Genre, String Date) {
+    public Book4(String ISBN, String Name, String Publish, String Genre, String Date) {
         this.ISBN = ISBN;
         this.Name = Name;
         this.Publish = Publish;
@@ -166,21 +157,12 @@ class Book3 implements Serializable {
         this.Date = Date;
         this.Authors = new ArrayList<>();
     }
-
-    public void AddAuthor(String author) {Authors.add(author);}
-
-    public String getISBN() {return ISBN;}
-
-    public String getName() {return Name;}
-
-    public List<String> getAuthors() {return Authors;}
-
-    public String getPublish() {return Publish;}
-
-    public String getGenre() {return Genre;}
-
-    public String getDate() {return Date;}
-
+    public void AddAuthor(String author) {
+        Authors.add(author);
+    }
+    public String getName() {
+        return Name;
+    }
     @Override
     public String toString(){
         return  "Book \n" +
