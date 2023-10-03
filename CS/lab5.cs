@@ -71,6 +71,7 @@ namespace CSSS
                     Date = "22-12-2022"
                 });
                 Display();
+                DisplaySpecificBook();
                 SaveBooks();
                 Console.WriteLine("Program terminated.");
                 return;
