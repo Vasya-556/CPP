@@ -1,29 +1,25 @@
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Scanner;
-import java.util.function.Predicate;
 
 public class lab4 {
-    private static List<Book4> books = new ArrayList<>();
-    private static final String fileName = "books.json";
-    public static void main(String[] args) {
-        LoadBooks();
+    static MyLinkedList<Book4> books = LoadList();
+    public static void main(String[] args){
 
-        if (args.length > 0 && args[0].equalsIgnoreCase("-auto")) {
-            Book4 autoBook = new Book4(
+        if (args.length > 0 && args[0].equals("-auto")){
+            Book4 book = new Book4(
                     "00000",
-                    "Auto",
-                    "Auto",
+                    "AutoName",
+                    "AutoPublish",
                     "Auto",
                     "22-12-2022"
             );
-            autoBook.AddAuthor("Auto");
-
-            books.add(autoBook);
-            Display();
-            SaveBooks();
-            System.out.println("Program terminated.");
+            book.AddAuthor("AutoAuthor");
+            books.add(book);
+            Display.PrintList(books);
+            SaveBook();
             return;
         }
 
@@ -41,24 +37,19 @@ public class lab4 {
 
             switch (choice) {
                 case 0:
-                    SaveBooks();
+                    SaveBook();
                     System.out.println("Program terminated.");
-                    return;
+                    break;
 
                 case 1:
                     AddBook();
                     break;
 
                 case 2:
-                    Display();
+                    Display.PrintList(books);
                     break;
-
                 case 3:
-                    System.out.print("Enter the book name to delete: ");
-                    scanner.nextLine();
-                    String name = scanner.nextLine();
-                    books.removeIf(book -> book.getName().equalsIgnoreCase(name));
-                    System.out.println("Book " + name + " was deleted.");
+                    RemoveBook();
                     break;
 
                 default:
@@ -67,29 +58,52 @@ public class lab4 {
             }
         }
     }
-    private static void AddBook() {
+    public static MyLinkedList<Book4> LoadList() {
+        MyLinkedList<Book4> books;
+        File file = new File("books.json");
+        if (file.exists()) {
+            try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(file))) {
+                Object object = ois.readObject();
+                if (object instanceof MyLinkedList<?>) {
+                    books = (MyLinkedList<Book4>) object;
+                    System.out.println("Data loaded successfully from books.json");
+                } else {
+                    System.err.println("books.json does not contain a valid list of books.");
+                    books = new MyLinkedList<>();
+                }
+            } catch (IOException | ClassNotFoundException e) {
+                System.err.println("Error loading data from books.json: " + e.getMessage());
+                books = new MyLinkedList<>();
+            }
+        } else {
+            System.out.println("Starting with an empty list.");
+            books = new MyLinkedList<>();
+        }
+        return books;
+    }
+    public static void AddBook(){
         System.out.println();
 
         Scanner scanner = new Scanner(System.in);
 
         System.out.print("ISBN: ");
-        String isbn = scanner.nextLine();
+        String ISBN = scanner.nextLine();
 
         System.out.print("Name: ");
-        String name = scanner.nextLine();
+        String Name = scanner.nextLine();
 
         System.out.print("Publish: ");
-        String publish = scanner.nextLine();
+        String Publish = scanner.nextLine();
 
         System.out.print("Genre: ");
-        String genre = scanner.nextLine();
+        String Genre = scanner.nextLine();
 
         System.out.print("Date: ");
-        String date = scanner.nextLine();
+        String Date = scanner.nextLine();
 
-        Book4 book = new Book4(isbn, name, publish, genre, date);
+        Book4 book = new Book4(ISBN, Name, Publish, Genre, Date);
 
-        while (true) {
+        while (true){
             System.out.print("Add author (Y/N): ");
             String choice = scanner.nextLine();
             if (choice.equalsIgnoreCase("Y")) {
@@ -100,48 +114,97 @@ public class lab4 {
                 break;
             }
         }
-
         books.add(book);
-        System.out.println("Book added");
     }
-
-    private static void Display() {
-        for (Book4 book : books) {
-            System.out.println(book);
+    public static void RemoveBook(){
+        System.out.print("Enter book name(s): ");
+        Scanner scanner = new Scanner(System.in);
+        String BookName = scanner.nextLine();
+        books.removeIf(book -> book.getName().equalsIgnoreCase(BookName));
+        System.out.println("Book(s) with name " + BookName + " deleted (if found).");
+    }
+    public static void SaveBook(){
+        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("books.json"))){
+            oos.writeObject(books);
+            System.out.println();
         }
-    }
-
-    private static void SaveBooks() {
-        try (ObjectOutputStream outputStream = new ObjectOutputStream(new FileOutputStream(fileName))) {
-            outputStream.writeObject(books);
-            System.out.println("Data saved successfully to books.json");
-        } catch (IOException e) {
-            System.err.println("Error saving data to books.json: " + e.getMessage());
+        catch (IOException e){
+            System.err.println("Error saving data to file: " + e.getMessage());
         }
+        System.out.println("Program terminated");
+        System.exit(0);
     }
+}
 
-    private static void LoadBooks() {
-        try (ObjectInputStream inputStream = new ObjectInputStream(new FileInputStream(fileName))) {
-            Object obj = inputStream.readObject();
-            if (obj instanceof List<?>) {
-                books = (List<Book4>) obj;
-                System.out.println("Data loaded successfully from books.json");
-            } else {
-                System.out.println("books.json does not contain a valid list of books. Starting with an empty list.");
+class Node<T> implements Serializable {
+    T data;
+    Node<T> next;
+
+    Node(T data) {
+        this.data = data;
+        this.next = null;
+    }
+}
+
+class MyLinkedList<T> implements Iterable<T>, Serializable {
+    private Node<T> head = null;
+
+    public void add(T item) {
+        Node<T> newNode = new Node<>(item);
+        if (head == null) {
+            head = newNode;
+        } else {
+            Node<T> temp = head;
+            while (temp.next != null) {
+                temp = temp.next;
             }
-        } catch (IOException | ClassNotFoundException e) {
-            System.err.println("Error loading data from books.json: " + e.getMessage() + ". Starting with an empty list.");
+            temp.next = newNode;
+        }
+    }
+
+    public Iterator<T> iterator() {
+        return new Iterator<T>() {
+            private Node<T> current = head;
+
+            public boolean hasNext() {
+                return current != null;
+            }
+
+            public T next() {
+                T data = current.data;
+                current = current.next;
+                return data;
+            }
+        };
+    }
+
+    public void removeIf(java.util.function.Predicate<T> predicate) {
+        if (head == null) return;
+
+        while (head != null && predicate.test(head.data)) {
+            head = head.next;
+        }
+
+        Node<T> current = head;
+        while (current != null && current.next != null) {
+            if (predicate.test(current.next.data)) {
+                current.next = current.next.next;
+            } else {
+                current = current.next;
+            }
         }
     }
 }
 
-class MyLinkedList<T> extends ArrayList<T> {
-    public void RemoveIf(Predicate<T> predicate) {
-        removeIf(predicate);
+class Display {
+    public static <T> void PrintList(MyLinkedList<T> list){
+        for (T item : list){
+            System.out.println(item);
+        }
     }
 }
 
-class Book4 implements Serializable {
+class Book4 implements  Serializable {
     private String ISBN;
     private String Name;
     private List<String> Authors;
@@ -149,19 +212,19 @@ class Book4 implements Serializable {
     private String Genre;
     private String Date;
 
-    public Book4(String ISBN, String Name, String Publish, String Genre, String Date) {
+    public Book4(String ISBN, String Name, String Publish, String Genre, String Date){
         this.ISBN = ISBN;
         this.Name = Name;
+        this.Authors = new ArrayList<>();
         this.Publish = Publish;
         this.Genre = Genre;
         this.Date = Date;
-        this.Authors = new ArrayList<>();
-    }
-    public void AddAuthor(String author) {
-        Authors.add(author);
     }
     public String getName() {
-        return Name;
+        return this.Name;
+    }
+    public void AddAuthor(String Author) {
+        Authors.add(Author);
     }
     @Override
     public String toString(){
@@ -174,3 +237,4 @@ class Book4 implements Serializable {
                 "Date: '" + Date + "'";
     }
 }
+
