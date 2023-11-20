@@ -1,6 +1,14 @@
 ﻿[
   {
     "ISBN": "123",
+    "Name": "\u0000\u0000\u0000",
+    "Authors": [],
+    "Publish": "sdf",
+    "Genre": "sdf",
+    "Date": "sdf"
+  },
+  {
+    "ISBN": "123",
     "Name": "123",
     "Authors": [],
     "Publish": "123",
@@ -16,6 +24,14 @@
     "Publish": "123",
     "Genre": "123",
     "Date": "31-12-2022"
+  },
+  {
+    "ISBN": "123",
+    "Name": "123",
+    "Authors": [],
+    "Publish": "ds",
+    "Genre": "sd",
+    "Date": "12-12-2022"
   },
   {
     "ISBN": "1234",
@@ -38,14 +54,14 @@
     "Date": "12-12-2022"
   },
   {
-    "ISBN": "2983452345",
-    "Name": "travel",
+    "ISBN": "00000",
+    "Name": "Auto",
     "Authors": [
-      "John Smith"
+      "Auto"
     ],
-    "Publish": "svitanok",
-    "Genre": "adventure",
-    "Date": "2022-12-22"
+    "Publish": "Auto",
+    "Genre": "Auto",
+    "Date": "22-12-2022"
   },
   {
     "ISBN": "12312312",
@@ -58,13 +74,13 @@
     "Date": "2020-15-12"
   },
   {
-    "ISBN": "00000",
-    "Name": "Auto",
+    "ISBN": "2983452345",
+    "Name": "travel",
     "Authors": [
-      "Auto"
+      "John Smith"
     ],
-    "Publish": "Auto",
-    "Genre": "Auto",
-    "Date": "22-12-2022"
+    "Publish": "svitanok",
+    "Genre": "adventure",
+    "Date": "2022-12-22"
   }
 ]
