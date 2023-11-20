@@ -1,0 +1,7 @@
+C:\Users\vkobr\OneDrive\Робочий стіл\CPP\CS2\CS2\bin\Debug\CS2.exe.config
+C:\Users\vkobr\OneDrive\Робочий стіл\CPP\CS2\CS2\bin\Debug\CS2.exe
+C:\Users\vkobr\OneDrive\Робочий стіл\CPP\CS2\CS2\bin\Debug\CS2.pdb
+C:\Users\vkobr\OneDrive\Робочий стіл\CPP\CS2\CS2\obj\Debug\CS2.csproj.AssemblyReference.cache
+C:\Users\vkobr\OneDrive\Робочий стіл\CPP\CS2\CS2\obj\Debug\CS2.csproj.CoreCompileInputs.cache
+C:\Users\vkobr\OneDrive\Робочий стіл\CPP\CS2\CS2\obj\Debug\CS2.exe
+C:\Users\vkobr\OneDrive\Робочий стіл\CPP\CS2\CS2\obj\Debug\CS2.pdb
