@@ -1,0 +1,10 @@
+C:\Users\vkobr\OneDrive\Робочий стіл\CPP\CS3\CS3\bin\Debug\CS3.exe.config
+C:\Users\vkobr\OneDrive\Робочий стіл\CPP\CS3\CS3\bin\Debug\CS3.exe
+C:\Users\vkobr\OneDrive\Робочий стіл\CPP\CS3\CS3\bin\Debug\CS3.pdb
+C:\Users\vkobr\OneDrive\Робочий стіл\CPP\CS3\CS3\obj\Debug\Server.csproj.AssemblyReference.cache
+C:\Users\vkobr\OneDrive\Робочий стіл\CPP\CS3\CS3\obj\Debug\CS3.Server.resources
+C:\Users\vkobr\OneDrive\Робочий стіл\CPP\CS3\CS3\obj\Debug\CS3.Properties.Resources.resources
+C:\Users\vkobr\OneDrive\Робочий стіл\CPP\CS3\CS3\obj\Debug\Server.csproj.GenerateResource.cache
+C:\Users\vkobr\OneDrive\Робочий стіл\CPP\CS3\CS3\obj\Debug\Server.csproj.CoreCompileInputs.cache
+C:\Users\vkobr\OneDrive\Робочий стіл\CPP\CS3\CS3\obj\Debug\CS3.exe
+C:\Users\vkobr\OneDrive\Робочий стіл\CPP\CS3\CS3\obj\Debug\CS3.pdb
